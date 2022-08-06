@@ -1,5 +1,6 @@
 -r server.txt
 anyio
+Faker
 httpx
 mypy
 pytest
