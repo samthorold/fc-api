@@ -2,7 +2,7 @@ from faker import Faker
 import pytest
 
 
-from app import db
+from app import db, models
 from app.app import get_app
 
 fake = Faker()
@@ -21,7 +21,7 @@ def new_db():
 
 
 def n_fake_cards(n: int = 10):
-    return [db.Card(front=fake.sentence(), back=fake.sentence()) for _ in range(n)]
+    return [models.Card(front=fake.sentence(), back=fake.sentence()) for _ in range(n)]
 
 
 @pytest.fixture

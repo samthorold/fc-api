@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Query
 
-from app.db import CARDSDB, GROUPSDB, Card, CardCreate, Group
+from app.db import CARDSDB, GROUPSDB
+from app.models import Card, CardCreate, Group
 
 
 router = APIRouter()
