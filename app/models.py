@@ -5,6 +5,10 @@ class Group(BaseModel):
     name: str = Field(..., min_length=1)
 
 
+class GroupInDB(Group):
+    id: int
+
+
 class CardCreate(BaseModel):
     front: str = Field(..., min_length=1)
     back: str = Field(..., min_length=1)
@@ -15,3 +19,7 @@ class CardCreate(BaseModel):
 
 class Card(CardCreate):
     groups: list[Group] | None = None
+
+
+class CardInDB(Card):
+    id: int

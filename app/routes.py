@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Query
 
-from app.db import CARDSDB, GROUPSDB
-from app.models import Card, CardCreate, Group
+from app import db
+from app.models import CardCreate, CardInDB, Group
+from app.repository import CardsListRepository, CardsRepository
 
 
 router = APIRouter()
@@ -13,25 +14,14 @@ async def cards(
     back: str | None = None,
     groups: list[str] | None = Query(default=None),
 ):
-    cards = [card.copy() for card in CARDSDB]
-    if front is not None:
-        cards = [card for card in cards if front.lower() in card.front.lower()]
-    if back is not None:
-        cards = [card for card in cards if back.lower() in card.back.lower()]
-    if groups is not None:
-        for group in groups:
-            cards = [
-                card
-                for card in cards
-                if group.lower() in [g.name.lower() for g in (card.groups or [])]
-            ]
-    return cards
+    repo: CardsRepository = CardsListRepository(db)
+    return repo.list_cards(front=front, back=back, groups=groups)
 
 
-@router.post("/cards/")
-async def create_card(card: CardCreate):
-    CARDSDB.append(Card(**card.dict()))
-    return CARDSDB[-1]
+@router.post("/cards/", status_code=201)
+async def create_card(card: CardCreate) -> CardInDB:
+    repo: CardsRepository = CardsListRepository(db)
+    return repo.add_card(card)
 
 
 @router.get("/cards/{card_id}")
@@ -41,10 +31,10 @@ async def read_card(card_id: int):
 
 @router.get("/groups/")
 async def groups():
-    return GROUPSDB
+    return db.GROUPSDB
 
 
-@router.post("/groups/")
+@router.post("/groups/", status_code=201)
 def create_group(group: Group):
-    GROUPSDB.append(group)
+    db.GROUPSDB.append(group)
     return group
