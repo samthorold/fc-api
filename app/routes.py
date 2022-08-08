@@ -26,15 +26,25 @@ async def create_card(card: CardCreate) -> CardInDB:
 
 @router.get("/cards/{card_id}")
 async def read_card(card_id: int):
-    return {"card_id": card_id}
+    repo: CardsRepository = CardsListRepository(db)
+    return repo.get_card(id)
 
 
 @router.get("/groups/")
-async def groups():
-    return db.GROUPSDB
+async def groups(name: str | None = None):
+    repo: CardsRepository = CardsListRepository(db)
+    return repo.list_groups(name)
 
 
 @router.post("/groups/", status_code=201)
 def create_group(group: Group):
-    db.GROUPSDB.append(group)
-    return group
+    repo: CardsRepository = CardsListRepository(db)
+    return repo.add_group(group)
+
+
+@router.post("/add-card-to-group/", status_code=201)
+async def add_card_to_group(card_id: int, group_id: int) -> CardInDB:
+    repo: CardsRepository = CardsListRepository(db)
+    card = repo.get_card(card_id)
+    group = repo.get_group(group_id)
+    return repo.add_card_to_group(card, group)

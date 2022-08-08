@@ -22,7 +22,14 @@ def new_db():
 
 def n_fake_cards(n: int = 10):
     return [
-        models.Card(front=f"{i+1}", back=fake.sentence())
+        models.CardInDB(id=(i+1), front=f"{i+1}", back=fake.sentence())
+        for i in range(n)
+    ]
+
+
+def n_fake_groups(n: int = 10):
+    return [
+        models.GroupInDB(id=(i+1), name=str(i))
         for i in range(n)
     ]
 
@@ -33,4 +40,8 @@ def non_empty_db(new_db, request):
     if m and len(m.args) > 0:
         for card in n_fake_cards(m.args[0]):
             new_db.CARDSDB.append(card)
+    m = request.node.get_closest_marker("num_groups")
+    if m and len(m.args) > 0:
+        for group in n_fake_groups(m.args[0]):
+            new_db.GROUPSDB.append(group)
     return new_db

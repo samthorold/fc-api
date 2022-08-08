@@ -1,6 +1,18 @@
 from pydantic import BaseModel, Field
 
 
+class FlashCardsError(Exception):
+    """FlashCards root error."""
+
+
+class NoSuchCard(FlashCardsError):
+    """Card does not exist."""
+
+
+class NoSuchGroup(FlashCardsError):
+    """Group does not exist."""
+
+
 class Group(BaseModel):
     name: str = Field(..., min_length=1)
 

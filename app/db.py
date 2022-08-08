@@ -2,8 +2,8 @@ from app import models
 
 
 GROUPSDB = [
-    models.Group(name="g1"),
-    models.Group(name="g2"),
+    models.GroupInDB(id=1, name="g1"),
+    models.GroupInDB(id=2, name="g2"),
 ]
 
 
