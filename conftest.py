@@ -21,7 +21,10 @@ def new_db():
 
 
 def n_fake_cards(n: int = 10):
-    return [models.Card(front=fake.sentence(), back=fake.sentence()) for _ in range(n)]
+    return [
+        models.Card(front=f"{i+1}", back=fake.sentence())
+        for i in range(n)
+    ]
 
 
 @pytest.fixture

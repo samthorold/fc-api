@@ -1,5 +1,6 @@
 -r server.txt
 anyio
+black
 Faker
 httpx
 mypy
