@@ -5,7 +5,6 @@ from app import models
 
 
 class CardsRepository(Protocol):
-
     def add_card(self, card: models.CardCreate) -> models.CardInDB:
         ...
 
@@ -29,7 +28,9 @@ class CardsRepository(Protocol):
     def list_groups(self, name: str | None = None) -> list[models.GroupInDB]:
         ...
 
-    def add_card_to_group(card: models.CardInDB, group: models.GroupInDB) -> models.CardInDB:
+    def add_card_to_group(
+        card: models.CardInDB, group: models.GroupInDB
+    ) -> models.CardInDB:
         ...
 
 
@@ -58,9 +59,7 @@ class CardsListRepository:
         groups = [] if groups is None else groups
         cards = [card.copy() for card in self.db.CARDSDB]
         if front is not None:
-            cards = [
-                card for card in cards if front.lower() in card.front.lower()
-            ]
+            cards = [card for card in cards if front.lower() in card.front.lower()]
         if back is not None:
             cards = [card for card in cards if back.lower() in card.back.lower()]
         if groups is not None:
@@ -87,12 +86,12 @@ class CardsListRepository:
     ) -> list[models.GroupInDB]:
         groups = [group.copy() for group in self.db.GROUPSDB]
         if name is not None:
-            groups = [
-                group for group in groups if name.lower() in group.name.lower()
-            ]
+            groups = [group for group in groups if name.lower() in group.name.lower()]
         return groups
 
-    def add_card_to_group(self, card: models.CardInDB, group: models.GroupInDB) -> models.CardInDB:
+    def add_card_to_group(
+        self, card: models.CardInDB, group: models.GroupInDB
+    ) -> models.CardInDB:
         if card.groups is None:
             card.groups = []
         card.groups.append(group)

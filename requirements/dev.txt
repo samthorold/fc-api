@@ -4,5 +4,8 @@ black
 Faker
 httpx
 mypy
+psycopg2-binary
+pyls-flake8
 pytest
+sqlalchemy[mypy]
 trio

@@ -8,7 +8,9 @@ GROUPSDB = [
 
 
 CARDSDB = [
-    models.CardInDB(id=1, front="Front", back="Back", groups=[GROUPSDB[0], GROUPSDB[-1]]),
+    models.CardInDB(
+        id=1, front="Front", back="Back", groups=[GROUPSDB[0], GROUPSDB[-1]]
+    ),
     models.CardInDB(id=2, front="Question", back="Answer", groups=[GROUPSDB[-1]]),
     models.CardInDB(id=3, front="Query", back="Knowledge"),
 ]

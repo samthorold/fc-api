@@ -22,16 +22,13 @@ def new_db():
 
 def n_fake_cards(n: int = 10):
     return [
-        models.CardInDB(id=(i+1), front=f"{i+1}", back=fake.sentence())
+        models.CardInDB(id=(i + 1), front=f"{i+1}", back=fake.sentence())
         for i in range(n)
     ]
 
 
 def n_fake_groups(n: int = 10):
-    return [
-        models.GroupInDB(id=(i+1), name=str(i))
-        for i in range(n)
-    ]
+    return [models.GroupInDB(id=(i + 1), name=str(i)) for i in range(n)]
 
 
 @pytest.fixture
